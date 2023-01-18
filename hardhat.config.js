@@ -56,13 +56,25 @@ module.exports = {
     //    url: optimismGoerliUrl,
     //    accounts: { mnemonic: process.env.MNEMONIC }
     // },
+    // "optimism-goerli": {
+    //   url: optimismGoerliUrl,
+    //   accounts: [`${process.env.PRIVATE_KEY}`]
+    // },
     "optimism-goerli": {
-      url: optimismGoerliUrl,
+      url: `https://opt-goerli.g.alchemy.com/v2/${process.env.OPTIMISM_GOERLI_ALCHEMY_KEY}`,
       accounts: [`${process.env.PRIVATE_KEY}`]
-   },
+    },
+    "goerli": {
+      url: `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
+      accounts: [`${process.env.PRIVATE_KEY}`]
+    },
+    "tokamak-optimism-goerli" : {
+      url: `https://goerli.optimism.tokamak.network`,
+      accounts: [`${process.env.PRIVATE_KEY}`]
+    },
     "optimism-bedrock": {
        url: 'https://bedrock-beta-1-replica-0.optimism.io/',
-       accounts: { mnemonic: process.env.MNEMONIC }
+       accounts: [`${process.env.PRIVATE_KEY}`]
     }
   }
 };
