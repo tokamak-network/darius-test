@@ -48,9 +48,20 @@ module.exports = {
     ],
   },
   networks: {
-    "local-devnode": {
-       url: "http://localhost:8545",
-       accounts: { mnemonic: "test test test test test test test test test test test junk" }
+    "hardhat": {
+      accounts: { mnemonic: "test test test test test test test test test test test junk" }
+    },
+    "l1chain-local": {
+      // url: `http://127.0.0.1:9545`,
+      // url: `http://l1_chain:8545`,
+      url: `http://localhost:9545`,
+      accounts: { mnemonic: "test test test test test test test test test test test junk" }
+    },
+    "optimism-local": {
+      //  url: `http://127.0.0.1:8545`,
+      //  url: `http://l2geth:8545`,
+      url: `http://localhost:8545`,
+      accounts: { mnemonic: "test test test test test test test test test test test junk" }
     },
     // "optimism-goerli": {
     //    url: optimismGoerliUrl,
