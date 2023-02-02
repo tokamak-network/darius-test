@@ -18,20 +18,20 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 
-const optimismGoerliUrl = 
-  process.env.ALCHEMY_API_KEY ? 
-    `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}` :
-    process.env.OPTIMISM_GOERLI_URL
+// const optimismGoerliUrl =
+//   process.env.ALCHEMY_API_KEY ?
+//     `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}` :
+//     process.env.OPTIMISM_GOERLI_URL
 
-const words = process.env.MNEMONIC.match(/[a-zA-Z]+/g).length
-validLength = [12, 15, 18, 24]
-if (!validLength.includes(words)) {
-   console.log(`The mnemonic (${process.env.MNEMONIC}) is the wrong number of words`)
-   process.exit(-1)
-}
+// const words = process.env.MNEMONIC.match(/[a-zA-Z]+/g).length
+// validLength = [12, 15, 18, 24]
+// if (!validLength.includes(words)) {
+//    console.log(`The mnemonic (${process.env.MNEMONIC}) is the wrong number of words`)
+//    process.exit(-1)
+// }
 
 module.exports = {
-  solidity: { 
+  solidity: {
     compilers: [
       {
         version: '0.8.9',
@@ -86,6 +86,10 @@ module.exports = {
     "optimism-bedrock": {
        url: 'https://bedrock-beta-1-replica-0.optimism.io/',
        accounts: [`${process.env.PRIVATE_KEY}`]
-    }
+    },
+    "tokamakgoerli": {
+      url: 'https://goerli.optimism.tokamak.network',
+      accounts: [`${process.env.PRIVATE_KEY}`]
+   },
   }
 };
