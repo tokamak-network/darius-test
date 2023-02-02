@@ -93,8 +93,8 @@ const setupCrossMessengerAndContract = async () => {
 
 const withdrawERC20 = async () => {
   const [l1Signer, l2Signer] = await getSigners()
-  tx = await l1Contract.balanceOf(l1Signer.address) 
-  tx2 = await l2Contract.balanceOf(l2Signer.address)
+  tx = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-18)
+  tx2 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-18)
 
   console.log("tx : ",Number(tx))
   console.log("tx2 :",Number(tx2))
@@ -110,8 +110,8 @@ const withdrawERC20 = async () => {
   // withdrawalTx3 = await crossChainMessenger.finalizeMessage(withdrawalTx1.hash)
   // await withdrawalTx3.wait()   
 
-  tx3 = await l1Contract.balanceOf(l1Signer.address) 
-  tx4 = await l2Contract.balanceOf(l2Signer.address)
+  tx3 = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-18)
+  tx4 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-18)
 
   console.log("tx3 :", Number(tx3))
   console.log("tx4 :", Number(tx4))

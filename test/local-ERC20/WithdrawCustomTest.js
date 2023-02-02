@@ -19,16 +19,14 @@ const bridge = {
 }
 
 const erc20Addrs = {
-    l1Addr: process.env.L1_TOKEN_ADDRESS,
-    l2Addr: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    l1Addr: process.env.L1_CUSTOM_ADDRESS,
+    l2Addr: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788"
 }
 
 // let useAddr
 let l1RpcProvider, l2RpcProvider
 let l1Contract, l2Contract
 let crossChainMessenger
-
-const depositAmount = ethers.utils.parseEther("1")
 
 const erc20ABI = [
     // balanceOf
@@ -91,30 +89,37 @@ const setupCrossMessengerAndContract = async () => {
   console.log("setup finish")
 }
 
-const depositERC20 = async () => {
+const withdrawERC20 = async () => {
   const [l1Signer, l2Signer] = await getSigners()
-  depositTx1 = await crossChainMessenger.approveERC20(l1Contract.address, erc20Addrs.l2Addr, depositAmount)
-  await depositTx1.wait()
-  tx = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-18)
-  tx2 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-18)
+  tx = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-8)
+  tx2 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-8)
 
   console.log("tx : ",Number(tx))
   console.log("tx2 :",Number(tx2))
 
-  depositTx2 = await crossChainMessenger.depositERC20(l1Contract.address, erc20Addrs.l2Addr, depositAmount)
-  await depositTx2.wait()
-  
-  await crossChainMessenger.waitForMessageStatus(depositTx2.hash, optimismSDK.MessageStatus.RELAYED)
-  tx3 = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-18)
-  tx4 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-18)
+  withdrawalTx1 = await crossChainMessenger.withdrawERC20(l1Contract.address, erc20Addrs.l2Addr, 1e9)
+  await withdrawalTx1.wait()
+
+  // await crossChainMessenger.waitForMessageStatus(withdrawalTx1.hash, optimismSDK.MessageStatus.READY_TO_PROVE)
+  // withdrawalTx2 = await crossChainMessenger.proveMessage(withdrawalTx1.hash)
+  // await withdrawalTx2.wait()
+
+  // await crossChainMessenger.waitForMessageStatus(withdrawalTx1.hash, optimismSDK.MessageStatus.READY_FOR_RELAY)
+  // withdrawalTx3 = await crossChainMessenger.finalizeMessage(withdrawalTx1.hash)
+  // await withdrawalTx3.wait()   
+
+  tx3 = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-8)
+  tx4 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-8)
 
   console.log("tx3 :", Number(tx3))
   console.log("tx4 :", Number(tx4))
+  
 }
+
 
 const main = async () => {
     await setupCrossMessengerAndContract()
-    await depositERC20()
+    await withdrawERC20()
   }  // main
   
   main().then(() => process.exit(0))
