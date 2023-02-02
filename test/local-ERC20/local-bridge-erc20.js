@@ -17,14 +17,14 @@ const l2Url = `http://localhost:8545`
 
 
 const bridge = {
-    l1Bridge: "0x7377F3D0F64d7a54Cf367193eb74a052ff8578FD",
+    l1Bridge: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
     l2Bridge: "0x4200000000000000000000000000000000000010"
   }
 
 // 배포해야함
 const erc20Addrs = {
-  l1Addr: "",
-  l2Addr: ""
+  l1Addr: "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
+  l2Addr: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
 }
 
 let crossChainMessenger
@@ -61,6 +61,14 @@ const erc20ABI = [
     name: "approve",
     outputs: [{ name: "", type: "bool" }],
     type: "function",
+  },
+  // faucet
+  {
+    inputs: [],
+    name: "faucet",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
   }
 ]    // erc20ABI
 
@@ -94,6 +102,11 @@ const reportERC20Balances = async () => {
   }
 
   console.log("you don't have a token")
+  const tx = (await l1ERC20.faucet())
+  console.log(`Faucet tx: ${tx.hash}`)
+  await tx.wait()
+  const newBalance = (await l1ERC20.balanceOf(ourAddr)).toString().slice(0,-18)
+  console.log(`New L1 OUTb balance: ${newBalance}`)
 }    // reportERC20Balances
 
 const depositAmount = ethers.utils.parseEther("1")
