@@ -1,4 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-etherscan");
+
 require('dotenv').config()
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -18,17 +20,17 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 
-const optimismGoerliUrl = 
-  process.env.ALCHEMY_API_KEY ? 
-    `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}` :
-    process.env.OPTIMISM_GOERLI_URL
+// const optimismGoerliUrl = 
+//   process.env.ALCHEMY_API_KEY ? 
+//     `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}` :
+//     process.env.OPTIMISM_GOERLI_URL
 
-const words = process.env.MNEMONIC.match(/[a-zA-Z]+/g).length
-validLength = [12, 15, 18, 24]
-if (!validLength.includes(words)) {
-   console.log(`The mnemonic (${process.env.MNEMONIC}) is the wrong number of words`)
-   process.exit(-1)
-}
+// const words = process.env.MNEMONIC.match(/[a-zA-Z]+/g).length
+// validLength = [12, 15, 18, 24]
+// if (!validLength.includes(words)) {
+//    console.log(`The mnemonic (${process.env.MNEMONIC}) is the wrong number of words`)
+//    process.exit(-1)
+// }
 
 module.exports = {
   solidity: { 
@@ -86,6 +88,22 @@ module.exports = {
     "optimism-bedrock": {
        url: 'https://bedrock-beta-1-replica-0.optimism.io/',
        accounts: [`${process.env.PRIVATE_KEY}`]
+    },
+    "optimism-test": {
+      url: `https://sleek-young-field.optimism-goerli.discover.quiknode.pro/${process.env.QUICKNODE_API_KEY}/`
     }
-  }
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
+    customChains: [
+      {
+        network: "tokamak-optimism-goerli",
+        chainId: 5050,
+        urls: {
+          apiURL: "https://goerli.explorer.tokamak.network/api",
+          browserURL: "https://goerli.explorer.tokamak.network"
+        }
+      }
+    ]
+  },
 };

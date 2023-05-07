@@ -19,8 +19,8 @@ const bridge = {
 }
 
 const erc20Addrs = {
-    l1Addr: process.env.L1_TOKEN_ADDRESS,
-    l2Addr: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    l1Addr: "0x68c1F9620aeC7F2913430aD6daC1bb16D8444F00",
+    l2Addr: "0x7c6b91D9Be155A6Db01f749217d76fF02A7227F2"
 }
 
 // let useAddr
@@ -93,14 +93,19 @@ const setupCrossMessengerAndContract = async () => {
 
 const withdrawERC20 = async () => {
   const [l1Signer, l2Signer] = await getSigners()
+  console.log("Withdraw ERC20");
   tx = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-18)
   tx2 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-18)
-
-  console.log("tx : ",Number(tx))
-  console.log("tx2 :",Number(tx2))
+  console.log('before withdraw');
+  console.log(`TON on L1:${tx}     TON on L2:${tx2}`)
+  // console.log("tx : ",Number(tx))
+  // console.log("tx2 :",Number(tx2))
 
   withdrawalTx1 = await crossChainMessenger.withdrawERC20(l1Contract.address, erc20Addrs.l2Addr, withdrawAmount)
+  console.log(`\ttransaction hash (on L2): ${withdrawalTx1.hash}`)
+  console.log(`\tFor more information: https://goerli.explorer.tokamak.network/tx/${withdrawalTx1.hash}`)
   await withdrawalTx1.wait()
+
 
   // await crossChainMessenger.waitForMessageStatus(withdrawalTx1.hash, optimismSDK.MessageStatus.READY_TO_PROVE)
   // withdrawalTx2 = await crossChainMessenger.proveMessage(withdrawalTx1.hash)
@@ -112,9 +117,10 @@ const withdrawERC20 = async () => {
 
   tx3 = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-18)
   tx4 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-18)
-
-  console.log("tx3 :", Number(tx3))
-  console.log("tx4 :", Number(tx4))
+  console.log('after withdraw');
+  console.log(`TON on L1:${tx3}     TON on L2:${tx4}`)
+  // console.log("tx3 :", Number(tx3))
+  // console.log("tx4 :", Number(tx4))
   
 }
 

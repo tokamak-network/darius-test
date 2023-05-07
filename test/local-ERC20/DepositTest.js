@@ -10,8 +10,10 @@ if (!validLength.includes(words)) {
 
 require('dotenv').config()
 
-const l1Url = `http://localhost:9545`
-const l2Url = `http://localhost:8545`
+// const l1Url = `http://localhost:9545`
+// const l2Url = `http://localhost:8545`
+const l1Url = `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
+const l2Url = `https://goerli.optimism.tokamak.network`
 
 const bridge = {
     l1Bridge: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
@@ -19,8 +21,8 @@ const bridge = {
 }
 
 const erc20Addrs = {
-    l1Addr: process.env.L1_TOKEN_ADDRESS,
-    l2Addr: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    l1Addr: "0x68c1F9620aeC7F2913430aD6daC1bb16D8444F00",
+    l2Addr: "0x7c6b91D9Be155A6Db01f749217d76fF02A7227F2"
 }
 
 // let useAddr
@@ -93,23 +95,35 @@ const setupCrossMessengerAndContract = async () => {
 
 const depositERC20 = async () => {
   const [l1Signer, l2Signer] = await getSigners()
+  console.log("Deposit ERC20");
+  const start = new Date();
   depositTx1 = await crossChainMessenger.approveERC20(l1Contract.address, erc20Addrs.l2Addr, depositAmount)
   await depositTx1.wait()
+  console.log(`Allowance given by tx ${depositTx1.hash}`)
+  console.log(`\tMore info: https://goerli.etherscan.io/tx/${depositTx1.hash}`)
+  console.log(`Time so far ${(new Date()-start)/1000} seconds`)
   tx = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-18)
   tx2 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-18)
-
-  console.log("tx : ",Number(tx))
-  console.log("tx2 :",Number(tx2))
+  console.log('before deposit');
+  console.log(`TON on L1:${tx}     TON on L2:${tx2}`)
+  // console.log("tx : ",Number(tx))
+  // console.log("tx2 :",Number(tx2))
 
   depositTx2 = await crossChainMessenger.depositERC20(l1Contract.address, erc20Addrs.l2Addr, depositAmount)
+  console.log(`Deposit transaction hash (on L1): ${depositTx2.hash}`)
+  console.log(`\tMore info: https://goerli.etherscan.io/tx/${depositTx2.hash}`)
   await depositTx2.wait()
-  
+  console.log("Waiting for status to change to RELAYED")
+  console.log(`Time so far ${(new Date()-start)/1000} seconds`)
+
   await crossChainMessenger.waitForMessageStatus(depositTx2.hash, optimismSDK.MessageStatus.RELAYED)
   tx3 = (await l1Contract.balanceOf(l1Signer.address)).toString().slice(0,-18)
   tx4 = (await l2Contract.balanceOf(l2Signer.address)).toString().slice(0,-18)
-
-  console.log("tx3 :", Number(tx3))
-  console.log("tx4 :", Number(tx4))
+  console.log('after deposit');
+  console.log(`TON on L1:${tx3}     TON on L2:${tx4}`)
+  console.log(`depositERC20 took ${(new Date()-start)/1000} seconds\n\n`)
+  // console.log("tx3 :", Number(tx3))
+  // console.log("tx4 :", Number(tx4))
 }
 
 const main = async () => {
