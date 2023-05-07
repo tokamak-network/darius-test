@@ -10,8 +10,10 @@ if (!validLength.includes(words)) {
 
 require('dotenv').config()
 
-const l1Url = `http://localhost:9545`
-const l2Url = `http://localhost:8545`
+// const l1Url = `http://localhost:9545`
+// const l2Url = `http://localhost:8545`
+const l1Url = `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
+const l2Url = `https://goerli.optimism.tokamak.network`
 
 const bridge = {
     l1Bridge: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
