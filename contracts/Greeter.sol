@@ -39,9 +39,13 @@ contract Greeter {
     if (block.chainid == 5)
       cdmAddr = 0x2878373BA3Be0Ef2a93Ba5b3F7210D76cb222e63;
 
-    // L2 (same address on every network)
-    if (block.chainid == 10 || block.chainid == 420)
+    // L2 Darius
+    if (block.chainid == 5050)
       cdmAddr = 0x4200000000000000000000000000000000000007;
+
+    // // L2 (same address on every network)
+    // if (block.chainid == 10 || block.chainid == 420)
+    //   cdmAddr = 0x4200000000000000000000000000000000000007;
 
     // If this isn't a cross domain message
     if (msg.sender != cdmAddr)
