@@ -72,9 +72,9 @@ const getSigners = async () => {
 const setupCrossMessengerAndContract = async () => {
   const [l1Signer, l2Signer] = await getSigners()
   l1ChainId = (await l1RpcProvider.getNetwork()).chainId
-  console.log("l1ChainId : ", l1ChainId)
   l2ChainId = (await l2RpcProvider.getNetwork()).chainId
-  console.log("l2ChainId : ", l2ChainId)
+  // console.log("l1ChainId : ", l1ChainId)
+  // console.log("l2ChainId : ", l2ChainId)
 
   crossChainMessenger = new optimismSDK.CrossChainMessenger({
      l1ChainId: l1ChainId,

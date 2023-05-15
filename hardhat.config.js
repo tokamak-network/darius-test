@@ -73,31 +73,31 @@ module.exports = {
     //   url: optimismGoerliUrl,
     //   accounts: [`${process.env.PRIVATE_KEY}`]
     // },
-    "optimism-goerli": {
-      url: `https://opt-goerli.g.alchemy.com/v2/${process.env.OPTIMISM_GOERLI_ALCHEMY_KEY}`,
-      accounts: [`${process.env.PRIVATE_KEY}`]
-    },
+    // "optimism-goerli": {
+    //   url: `https://opt-goerli.g.alchemy.com/v2/${process.env.OPTIMISM_GOERLI_ALCHEMY_KEY}`,
+    //   accounts: [`${process.env.PRIVATE_KEY}`]
+    // },
     "goerli": {
       url: `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
       accounts: [`${process.env.PRIVATE_KEY}`]
     },
-    "tokamak-optimism-goerli" : {
+    "tokamak-darius-goerli" : {
       url: `https://goerli.optimism.tokamak.network`,
       accounts: [`${process.env.PRIVATE_KEY}`]
     },
-    "optimism-bedrock": {
-       url: 'https://bedrock-beta-1-replica-0.optimism.io/',
-       accounts: [`${process.env.PRIVATE_KEY}`]
-    },
-    "optimism-test": {
-      url: `https://sleek-young-field.optimism-goerli.discover.quiknode.pro/${process.env.QUICKNODE_API_KEY}/`
-    }
+    // "optimism-bedrock": {
+    //    url: 'https://bedrock-beta-1-replica-0.optimism.io/',
+    //    accounts: [`${process.env.PRIVATE_KEY}`]
+    // },
+    // "optimism-test": {
+    //   url: `https://sleek-young-field.optimism-goerli.discover.quiknode.pro/${process.env.QUICKNODE_API_KEY}/`
+    // }
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
     customChains: [
       {
-        network: "tokamak-optimism-goerli",
+        network: "tokamak-darius-goerli",
         chainId: 5050,
         urls: {
           apiURL: "https://goerli.explorer.tokamak.network/api",

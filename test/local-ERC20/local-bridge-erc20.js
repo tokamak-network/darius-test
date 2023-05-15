@@ -76,10 +76,11 @@ const erc20ABI = [
 const setup = async() => {
   const [l1Signer, l2Signer] = await getSigners()
   ourAddr = l1Signer.address
-
+  l1ChainId = (await l1RpcProvider.getNetwork()).chainId
+  l2ChainId = (await l2RpcProvider.getNetwork()).chainId
   crossChainMessenger = new optimismSDK.CrossChainMessenger({
-      l1ChainId: 31337,    // local value, 1 for mainnet
-      l2ChainId: 17,  // local-L2 value, 10 for mainnet
+      l1ChainId: l1ChainId,    // local value, 1 for mainnet (31337)
+      l2ChainId: l2ChainId,  // local-L2 value, 10 for mainnet (17)
       l1SignerOrProvider: l1Signer,
       l2SignerOrProvider: l2Signer
   })
