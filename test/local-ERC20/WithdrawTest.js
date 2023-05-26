@@ -1,5 +1,5 @@
 const ethers = require("ethers")
-const optimismSDK = require("@eth-optimism/sdk")
+const optimismSDK = require("@tokamak-network/tokamak-layer2-sdk")
 
 const words = process.env.MNEMONIC.match(/[a-zA-Z]+/g).length
 validLength = [12, 15, 18, 24]
