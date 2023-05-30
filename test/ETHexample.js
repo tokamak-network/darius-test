@@ -3,7 +3,6 @@
 // Transfers between L1 and L2 using the tokamak-network SDK
 
 const ethers = require("ethers")
-// const optimismSDK = require("@eth-optimism/sdk")
 const optimismSDK = require("@tokamak-network/tokamak-layer2-sdk")
 require('dotenv').config()
 
