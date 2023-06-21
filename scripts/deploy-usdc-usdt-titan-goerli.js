@@ -4,7 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
-
+const { ethers, run } = require("hardhat");
 async function main() {
   // deploy USDC on tokamak goerli
 
@@ -14,8 +14,8 @@ async function main() {
   const USDC_tokenName = 'USD Coin'
   const USDC_tokenSymbol = 'USDC'
 
-  const USDT_l1Token = ''
-  const USDT_tokenName = 'Tether USD'
+  const USDT_l1Token = '0x509ee0d083ddf8ac028f2a56731412edd63223b9'
+  const USDT_tokenName = 'Tether USD (USDT)'
   const USDT_tokenSymbol = 'USDT'
 
 

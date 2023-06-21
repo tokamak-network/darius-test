@@ -1,4 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
+
+require('@nomiclabs/hardhat-etherscan')
 require('dotenv').config()
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -47,6 +49,32 @@ module.exports = {
       },
     ],
   },
+  etherscan: {
+    apiKey: {
+      mainnet: process.env.ETHERSCAN_API_KEY,
+      goerli: process.env.ETHERSCAN_API_KEY,
+      "titan-goerli":"32IKRJ11RVV4GRTSYCZ9FKQAXH9H769VJS",
+      "titan":"32IKRJ11RVV4GRTSYCZ9FKQAXH9H769VJS"
+    },
+    customChains: [
+      {
+        network: "titan-goerli",
+        chainId: 5050,
+        urls: {
+          apiURL: "https://goerli.explorer.tokamak.network/api",
+          browserURL: "https://goerli.explorer.tokamak.network"
+        }
+      },
+      {
+        network: "titan",
+        chainId: 55004,
+        urls: {
+          apiURL: "https://explorer.titan.tokamak.network/api",
+          browserURL: "https://explorer.titan.tokamak.network"
+        }
+      }
+    ]
+  },
   networks: {
     "hardhat": {
       accounts: { mnemonic: "test test test test test test test test test test test junk" }
@@ -87,9 +115,13 @@ module.exports = {
        url: 'https://bedrock-beta-1-replica-0.optimism.io/',
        accounts: [`${process.env.PRIVATE_KEY}`]
     },
-    "tokamakgoerli": {
+    "titan-goerli": {
       url: 'https://goerli.optimism.tokamak.network',
       accounts: [`${process.env.PRIVATE_KEY}`]
-   },
+    },
+    "titan": {
+      url: 'https://rpc.titan.tokamak.network',
+      accounts: [`${process.env.PRIVATE_KEY}`]
+    },
   }
 };
